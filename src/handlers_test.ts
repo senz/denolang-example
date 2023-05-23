@@ -143,12 +143,13 @@ Deno.test(
 			'query',
 			mock.resolvesNext([
 				[
-                    {
-                        "name": "Sophie"
-                      },
-                      {
-                        "name": "Jonas"
-                      },                ],
+					{
+						'name': 'Sophie',
+					},
+					{
+						'name': 'Jonas',
+					},
+				],
 			]),
 		);
 

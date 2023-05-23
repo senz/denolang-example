@@ -1,8 +1,5 @@
 {
     "name": "Personio-ts deno",
-    // "build": {
-	// 	"dockerfile": "Dockerfile"
-	// },
     "dockerComposeFile": "docker-compose.yaml",
     "service": "app",
     "workspaceFolder": "/workspace",
@@ -27,6 +24,12 @@
             "extensions": [
                 "denoland.vscode-deno",
                 "humao.rest-client",
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "ms-azuretools.vscode-docker",
+                "sandipchitale.vscode-kubernetes-helm-extras",
+                // non essential
+                "DavidAnson.vscode-markdownlint",
+                "bierner.markdown-mermaid",
             ]
         }
     },

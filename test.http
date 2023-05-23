@@ -3,10 +3,10 @@ Content-Type: application/json
 Authorization: Basic chris:password1
 
 {
-          "Pete": "Nick",
-          "Barbara": "Nick",
-          "Nick": "Sophie",
-          "Sophie": "Jonas"
+    "Pete": "Nick",
+    "Barbara": "Nick",
+    "Nick": "Sophie",
+    "Sophie": "Jonas"
 }
 
 ###

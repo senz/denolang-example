@@ -140,7 +140,7 @@ export const handlerSvBuilder =
 
 export const okHandler = (_request: Request): Promise<Response> => {
 	return Promise.resolve(
-		new Response(JSON.stringify("ok"), {
+		new Response(JSON.stringify('ok'), {
 			status: 200,
 			headers: {
 				'content-type': 'application/json',

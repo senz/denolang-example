@@ -1,6 +1,10 @@
 import { Ajv, dotenv, http, mysql, scryptBasicAuth } from './deps.ts';
 import { Employees, Route } from 'src/types.ts';
-import { handlerEmpBuilder, handlerSvBuilder, okHandler } from 'src/handlers.ts';
+import {
+	handlerEmpBuilder,
+	handlerSvBuilder,
+	okHandler,
+} from 'src/handlers.ts';
 
 dotenv.config({ export: true });
 const { DB_HOST, DB_PASSWORD, DB_PORT, SERVER_PORT } = Deno.env.toObject();
@@ -57,7 +61,7 @@ const handler = async (_request: Request): Promise<Response> => {
 				if (!response.ok) {
 					return response;
 				}
-			} 
+			}
 
 			try {
 				return handler(_request);
