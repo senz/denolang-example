@@ -1,0 +1,6 @@
+.env
+Dockerfile
+*.md
+.vscode/
+docker-compose.yaml
+.devcontainer/

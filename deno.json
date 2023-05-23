@@ -1,0 +1,44 @@
+{
+  "imports": {
+    "std/": "https://deno.land/std@0.188.0/",
+    "src/": "./src/"
+  },
+  "tasks": {
+    "dev": "deno run --watch main.ts"
+  },
+  "lint": {
+    "include": [
+      "src/",
+      "main.ts",
+      "deps.ts"
+    ],
+    "exclude": [
+      "src/testdata/",
+      ".vscode/"
+    ],
+    "rules": {
+      "tags": [
+        "recommended"
+      ],
+      "include": [
+        "ban-untagged-todo"
+      ]
+    }
+  },
+  "fmt": {
+    "useTabs": true,
+    "lineWidth": 80,
+    "indentWidth": 4,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "include": [
+      "src/",
+      "main.ts",
+      "deps.ts"
+    ],
+    "exclude": [
+      "src/testdata/",
+      ".vscode/"
+    ]
+  }
+}

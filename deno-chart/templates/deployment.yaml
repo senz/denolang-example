@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "deno-chart.fullname" . }}
+  labels:
+    {{- include "deno-chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "deno-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "deno-chart.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: SERVER_PORT
+            value: "{{ .Values.deno.SERVER_PORT }}"
+          - name: scrypt_basic_auth_users
+            value: '{{ .Values.deno.scrypt_basic_auth_users }}'
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+        - name: mysql
+          image: mysql:8.0
+          env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.mysql.MYSQL_ROOT_PASSWORD }}
+          - name: MYSQL_DATABASE
+            value: {{ .Values.mysql.MYSQL_DATABASE }}
+          - name: MYSQL_USER
+            value: {{ .Values.mysql.MYSQL_USER }}
+          - name: MYSQL_PASSWORD
+            value: {{ .Values.mysql.MYSQL_PASSWORD }}

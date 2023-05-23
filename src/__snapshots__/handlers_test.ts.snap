@@ -1,0 +1,41 @@
+export const snapshot = {};
+
+snapshot[`emp: invalid content type. 400 1`] = `
+{
+  body: '"bad request: contenttype"',
+  headers: Headers { "content-type": "application/json" },
+  status: 400,
+}
+`;
+
+snapshot[`emp: invalid json. 400 1`] = `
+{
+  body: '"bad request: invalid json"',
+  headers: Headers { "content-type": "application/json" },
+  status: 400,
+}
+`;
+
+snapshot[`emp: malformed json. 400 1`] = `
+{
+  body: '"bad request: validation error"',
+  headers: Headers { "content-type": "application/json" },
+  status: 400,
+}
+`;
+
+snapshot[`emp: valid json. stored in db. 201 1`] = `
+{
+  body: '{"Jonas":{"Sophie":{"Nick":{"Pete":{},"Barbara":{}}}}}',
+  headers: Headers { "content-type": "application/json" },
+  status: 201,
+}
+`;
+
+snapshot[`sv: 2 entries in db. array with elements returned. 200 1`] = `
+{
+  body: '["Sophie","Jonas"]',
+  headers: Headers { "content-type": "application/json" },
+  status: 200,
+}
+`;
