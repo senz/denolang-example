@@ -1,5 +1,6 @@
 version: '3'
 
+# https://github.com/microsoft/vscode-dev-containers/tree/main/container-templates/docker-compose
 services:
   app:
     build: 
@@ -43,6 +44,7 @@ services:
       - MYSQL_PASSWORD=my-secret-pw
       - MYSQL_DATABASE=employees
       - MYSQL_RANDOM_ROOT_PASSWORD=1
+    # need to use native password because sha is not supported in deno https://github.com/denodrivers/mysql/issues/128
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - ../sqls:/docker-entrypoint-initdb.d:ro

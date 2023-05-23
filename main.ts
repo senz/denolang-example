@@ -1,15 +1,3 @@
-// parse payload, transform [x]
-// store payload in mysql/maria [x]
-// hande syntax errors in payload as 400 json excpetion [x]
-// endopoint for supervisor from storage [x]
-// devcontainer, readme.md
-// tests ! [x]
-// basic auth !! [x]
-// helms for mysql and service !!! [x]
-// todo service to mysql connection in k8s!!!!
-// todo move secrets from values to separate file that could be encrypted with sops
-// healthcheck handler [x]
-
 import { Ajv, dotenv, http, mysql, scryptBasicAuth } from './deps.ts';
 import { Employees, Route } from 'src/types.ts';
 import { handlerEmpBuilder, handlerSvBuilder, okHandler } from 'src/handlers.ts';
