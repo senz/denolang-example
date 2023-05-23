@@ -141,6 +141,8 @@ located in test.http file. Supported by [rest-client](https://marketplace.visual
 - [✅] tests !
 - [✅] basic auth !!
 - [✅] helm for mysql and service !!!
-- [] todo service to mysql connection in k8s !!!!
-- [] todo move secrets from values to separate file that could be encrypted with sops
+- [✅] todo service to mysql connection in k8s !!!!
+- [] move secrets from deployment to separate file that could be encrypted with sops
+- [] read sql from file
+- [] devcontainer with kind, helm. support for debugger into k8s attachment
 - [✅] healthcheck handler

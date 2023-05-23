@@ -1,0 +1,1 @@
+helm template  deno ./deno-chart --show-only templates/deployment.yaml
