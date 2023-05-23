@@ -1,8 +1,18 @@
 {
-    "name": "Deno",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "web",
+    "name": "Personio-ts deno",
+    // "build": {
+	// 	"dockerfile": "Dockerfile"
+	// },
+    "dockerComposeFile": "docker-compose.yaml",
+    "service": "app",
     "workspaceFolder": "/workspace",
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+    },
+    "postStartCommand": "nohup bash -c 'denon dev' | cat",
+    "remoteEnv": {
+        "SERVER_PORT": "3001"
+    },
     "customizations": {
         "vscode": {
             "settings": {
@@ -10,8 +20,8 @@
                 "deno.enable": true,
                 "deno.lint": true,
                 "deno.unstable": true,
-                "deno.config": "./deno.json",
-                "deno.importMap": "./deno.json",
+                "deno.config": "../deno.json",
+                "deno.importMap": "../deno.json",
                 "editor.defaultFormatter": "denoland.vscode-deno",
             },
             "extensions": [
@@ -20,5 +30,5 @@
             ]
         }
     },
-    // "remoteUser": "vscode",
+    "remoteUser": "vscode",
 }

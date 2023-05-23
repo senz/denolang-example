@@ -1,9 +1,21 @@
 {
   "$schema": "https://deno.land/x/denon@2.5.0/schema.json",
+  "allow": [
+    "net",
+    "read",
+    "env"
+  ],
+  "unstable": true,
   "scripts": {
     "start": {
-      "cmd": "deno run --allow-net --allow-read --allow-env --unstable main.ts",
-      "desc": "run my app.ts file"
+      "watch": false,
+      "cmd": "deno run main.ts",
+      "desc": "run my app"
+    },
+    "dev": {
+      "cmd": "deno run main.ts",
+      "inspect": "127.0.0.1:9229",
+      "desc": "run in dev mode (with debugger)"
     }
   }
 }

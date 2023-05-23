@@ -1,3 +1,30 @@
+# Description
+mermaid diagram sor involved components
+
+api docs
+
+request examples
+
+# How to setup local dev environment
+
+Copy config `cp .env.dist .env`
+
+VsCode:
+
+
+1. Reopen in container
+2. Deno: cache depenencies
+
+App is started in watch mode. Logs are in VsCode Terminal.
+
+Some app setting are set in devcontainer.json.
+
+## Debugging
+To start debugging session use Attach to remote.
+If you need to debug bootstrap, kill terminal process and start with `denon run --allow-all --inspect-brk=127.0.0.1:9229 main.ts` then 'Attach to remote'.
+
+# How to deploy
+
 https://dev.to/roeland/use-import-maps-in-deno-with-vscode-and-denon-25c1
 https://github.com/denodrivers/mysql
 
