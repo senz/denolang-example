@@ -110,6 +110,10 @@ If you need to debug bootstrap, kill terminal process and start with `denon run 
 
 `deno test --allow-read`
 
+to watch tests:
+
+`denon test`
+
 #### upladting snapshots
 
 `deno test --allow-all -- --update`

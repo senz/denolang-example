@@ -16,6 +16,9 @@
       "cmd": "deno run main.ts",
       "inspect": "127.0.0.1:9229",
       "desc": "run in dev mode (with debugger)"
+    },
+    "test": {
+      "cmd": "deno test"
     }
   }
 }
