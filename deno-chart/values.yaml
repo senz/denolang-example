@@ -18,14 +18,10 @@ deno:
   SERVER_PORT: "8000"
   DB_HOST: "127.0.0.1"
   DB_PORT: "3306"
-  DB_PASSWORD: "my-secret-pw"
-  scrypt_basic_auth_users: '[["chris","c2NyeXB0AAwAAAAIAAAAATpP+fdQAryDiRmCmcoOrZa2mZ049KdbA/ofTTrATQQ+m0L/gR811d0WQyip6p2skXVEMz2+8U+xGryFu2p0yzfCxYLUrAaIzaZELkN2M6k0"]]'
 
 mysql:
-  MYSQL_ROOT_PASSWORD: my-secret-pw
   MYSQL_DATABASE: employees
   MYSQL_USER: user
-  MYSQL_PASSWORD: my-secret-pw
   args: 
     - "--default-authentication-plugin=mysql_native_password"
 

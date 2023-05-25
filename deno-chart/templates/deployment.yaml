@@ -26,9 +26,15 @@ spec:
           - name: DB_PORT
             value: "{{ .Values.deno.DB_PORT }}"
           - name: DB_PASSWORD
-            value: "{{ .Values.deno.DB_PASSWORD }}"
+            valueFrom:
+              secretKeyRef:
+                name: deno-secret
+                key: DB_PASSWORD
           - name: scrypt_basic_auth_users
-            value: '{{ .Values.deno.scrypt_basic_auth_users }}'
+            valueFrom:
+              secretKeyRef:
+                name: deno-secret
+                key: scrypt_basic_auth_users
           ports:
             - name: http
               containerPort: 8000
@@ -41,13 +47,19 @@ spec:
           args: {{ .Values.mysql.args }}
           env:
           - name: MYSQL_ROOT_PASSWORD
-            value: {{ .Values.mysql.MYSQL_ROOT_PASSWORD }}
+            valueFrom:
+              secretKeyRef:
+                name: deno-secret
+                key: DB_ROOT_PASSWORD
           - name: MYSQL_DATABASE
             value: {{ .Values.mysql.MYSQL_DATABASE }}
           - name: MYSQL_USER
             value: {{ .Values.mysql.MYSQL_USER }}
           - name: MYSQL_PASSWORD
-            value: {{ .Values.mysql.MYSQL_PASSWORD }}
+            valueFrom:
+              secretKeyRef:
+                name: deno-secret
+                key: DB_PASSWORD
       volumes:
       - name: sql-volume
         configMap:
