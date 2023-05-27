@@ -151,4 +151,7 @@ located in test.http file. Supported by [rest-client](https://marketplace.visual
 - [✅] move secrets from deployment to separate file that could be encrypted with sops
 - [✅] read sql from file
 - [] devcontainer with kind, helm. support for debugger into k8s attachment
+- [] extract app server from main.ts to separate module
+- [] int test with [superdeno](https://github.com/cmorten/superdeno)
+- [✅] make insertion transactional
 - [✅] healthcheck handler

@@ -71,29 +71,31 @@ export const handlerEmpBuilder =
 		const result = buildHierarchy(body);
 		console.log(result);
 
-		await client.execute('truncate table employees;');
-
 		let id = 1;
 		const nameToId: { [key: string]: number } = {};
 
 		// Function to flatten the hierarchy and insert it into the database
 		async function insertHierarchy(
+			connection: mysql.Connection,
 			supervisorId: number | null,
 			hierarchy: EmployeeHierarchy,
 		) {
 			for (const name in hierarchy) {
-				const _res = await client.execute(
+				await connection.execute(
 					`INSERT INTO employees(id, name, supervisor_id) values(?, ?, ?)`,
 					[id, name, supervisorId],
 				);
 				nameToId[name] = id;
 				id += 1;
-				await insertHierarchy(nameToId[name], hierarchy[name]);
+				await insertHierarchy(connection, nameToId[name], hierarchy[name]);
 			}
 		}
 
-		await insertHierarchy(null, result);
-
+		client.transaction(async (conn) => {
+			await conn.execute('truncate table employees;');
+			return await insertHierarchy(conn, null, result);
+		})
+		
 		return Promise.resolve(
 			new Response(JSON.stringify(result), {
 				status: 201,
