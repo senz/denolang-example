@@ -1,13 +1,12 @@
 import { mysql } from '../deps.ts';
 import { mock, snapshot } from '../test.deps.ts';
-import { handlerEmpBuilder, handlerSvBuilder } from 'src/handlers.ts';
-import { Employees } from './types.ts';
+import { handlerEmpFactory, handlerSvFactory } from 'src/handlers.ts';
 
 class MockClient extends mysql.Client {}
 
 Deno.test('emp: invalid content type. 400', async function (t): Promise<void> {
 	const r = new Request('http://localhost/employees', {
-		body: '',
+		body: JSON.stringify({'test': 'toast'}),
 		method: 'POST',
 		headers: {
 			'content-type': 'ololopishpish',
@@ -16,11 +15,7 @@ Deno.test('emp: invalid content type. 400', async function (t): Promise<void> {
 
 	const client = new MockClient();
 
-	const validate = (_data: Employees): boolean => {
-		return true;
-	};
-
-	const res = await handlerEmpBuilder(validate, client)(r);
+	const res = await handlerEmpFactory(client)(r);
 	const ress = {
 		headers: res.headers,
 		body: await res.text(),
@@ -41,11 +36,7 @@ Deno.test('emp: invalid json. 400', async function (t): Promise<void> {
 
 	const client = new MockClient();
 
-	const validate = (_data: Employees): boolean => {
-		return true;
-	};
-
-	const res = await handlerEmpBuilder(validate, client)(r);
+	const res = await handlerEmpFactory(client)(r);
 	const ress = {
 		headers: res.headers,
 		body: await res.text(),
@@ -56,7 +47,7 @@ Deno.test('emp: invalid json. 400', async function (t): Promise<void> {
 
 Deno.test('emp: malformed json. 400', async function (t): Promise<void> {
 	const r = new Request('http://localhost/employees', {
-		body: '{}',
+		body: '{"test": 1}',
 		method: 'POST',
 		headers: {
 			'content-type': 'application/json',
@@ -64,12 +55,20 @@ Deno.test('emp: malformed json. 400', async function (t): Promise<void> {
 	});
 
 	const client = new MockClient();
+	const stubT = mock.stub(
+		client,
+		'transaction',
+		mock.resolvesNext([{ affectedRows: 0 }])
+	)
 
-	const validate = (_data: Employees): boolean => {
-		return false;
-	};
+	let res;
 
-	const res = await handlerEmpBuilder(validate, client)(r);
+	try {
+		res = await handlerEmpFactory(client)(r);
+	} finally {
+		stubT.restore();
+	}
+
 	const ress = {
 		headers: res.headers,
 		body: await res.text(),
@@ -98,26 +97,17 @@ Deno.test(
 		});
 
 		const client = new MockClient();
-		const s = mock.stub(
+		const stubT = mock.stub(
 			client,
-			'execute',
-			mock.resolvesNext([
-				{ affectedRows: 5 }, // truncate
-				{ affectedRows: 1 }, // inserts...
-				{ affectedRows: 1 },
-				{ affectedRows: 1 },
-				{ affectedRows: 1 },
-				{ affectedRows: 1 },
-			]),
+			'transaction',
+			mock.resolvesNext([{ affectedRows: 0 }])
 		);
-
-		const validate = (_data: Employees): boolean => true;
 
 		let res;
 		try {
-			res = await handlerEmpBuilder(validate, client)(r);
+			res = await handlerEmpFactory(client)(r);
 		} finally {
-			s.restore();
+			stubT.restore();
 		}
 
 		const ress = {
@@ -155,7 +145,7 @@ Deno.test(
 
 		let res;
 		try {
-			res = await handlerSvBuilder(client)(r);
+			res = await handlerSvFactory(client)(r);
 		} finally {
 			s.restore();
 		}

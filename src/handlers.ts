@@ -1,8 +1,16 @@
+import { Ajv, mysql } from '../deps.ts';
 import { EmployeeHierarchy, Employees } from 'src/types.ts';
-import { mysql } from '../deps.ts';
+
+const SCHEMA = {
+	'$schema': 'http://json-schema.org/draft-07/schema#',
+	type: 'object',
+	'patternProperties': {
+		'.*': { 'type': 'string' },
+	},
+	'additionalProperties': false,
+};
 
 const buildHierarchy = (relations: Employees): EmployeeHierarchy => {
-	let hierarchy: EmployeeHierarchy = {};
 	const subordinates: EmployeeHierarchy = {};
 
 	for (const [employee, supervisor] of Object.entries(relations)) {
@@ -19,17 +27,19 @@ const buildHierarchy = (relations: Employees): EmployeeHierarchy => {
 
 	for (const [_employee, supervisor] of Object.entries(relations)) {
 		if (!relations[supervisor]) {
-			hierarchy = { [supervisor]: subordinates[supervisor] };
-			break;
+			return { [supervisor]: subordinates[supervisor] };
 		}
 	}
 
-	return hierarchy;
+	return {};
 };
 
-export const handlerEmpBuilder =
-	(validate: (data: Employees) => boolean, client: mysql.Client) =>
-	async (_request: Request): Promise<Response> => {
+export const handlerEmpFactory =
+	(client: mysql.Client) => {
+		const ajvinstance = new Ajv();
+		const validate = ajvinstance.compile<Employees>(SCHEMA);
+
+	return async (_request: Request): Promise<Response> => {
 		const contentType = _request.headers.get('content-type');
 		if (contentType?.toLocaleLowerCase() !== 'application/json') {
 			return Promise.resolve(
@@ -87,15 +97,19 @@ export const handlerEmpBuilder =
 				);
 				nameToId[name] = id;
 				id += 1;
-				await insertHierarchy(connection, nameToId[name], hierarchy[name]);
+				await insertHierarchy(
+					connection,
+					nameToId[name],
+					hierarchy[name],
+				);
 			}
 		}
 
 		client.transaction(async (conn) => {
 			await conn.execute('truncate table employees;');
 			return await insertHierarchy(conn, null, result);
-		})
-		
+		});
+
 		return Promise.resolve(
 			new Response(JSON.stringify(result), {
 				status: 201,
@@ -104,9 +118,10 @@ export const handlerEmpBuilder =
 				},
 			}),
 		);
-	};
+	}
+};
 
-export const handlerSvBuilder =
+export const handlerSvFactory =
 	(client: mysql.Client) => async (_request: Request): Promise<Response> => {
 		const match = new URLPattern({ pathname: '/supervisors/:name/:levels' })
 			.exec(_request.url);
