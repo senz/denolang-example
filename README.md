@@ -114,7 +114,7 @@ to watch tests:
 
 `denon test`
 
-#### upladting snapshots
+#### updating snapshots
 
 `deno test --allow-all -- --update`
 
@@ -157,3 +157,4 @@ located in test.http file. Supported by [rest-client](https://marketplace.visual
 - [] more int test cases
 - [✅] make insertion transactional
 - [✅] healthcheck handler
+- [] helm: mysql as a separate service with pv
